@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="StatisticsManagement.css">
+    <title>Statistics</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Statistics Dashboard</h1>
+
+        <section class="statistics-section">
+            <h2>Number of Products Imported by Product Code</h2>
+            <form id="importForm" onsubmit="return false;">
+                <label for="productCode">Product Code:</label>
+                <input type="text" id="productCode" required>
+                <button type="button" onclick="statisticImports()">Get Statistics</button>
+            </form>
+            <div id="importResults" class="results"></div>
+        </section>
+
+        <section class="statistics-section">
+            <h2>Sales Revenue by Time</h2>
+            <form id="salesRevenueForm" onsubmit="return false;">
+                <label for="timePeriod">Select Time Period:</label>
+                <select id="timePeriod">
+                    <option value="day">Day</option>
+                    <option value="month">Month</option>
+                    <option value="year">Year</option>
+                </select>
+                <button type="button" onclick="statisticSalesRevenue()">Get Sales Revenue</button>
+            </form>
+            <div id="salesResults" class="results"></div>
+        </section>
+
+        <section class="statistics-section">
+            <h2>Profit Statistics</h2>
+            <form id="profitForm" onsubmit="return false;">
+                <label for="profitCode">Product/Employee Code:</label>
+                <input type="text" id="profitCode" required>
+                <button type="button" onclick="statisticProfit()">Get Profit Statistics</button>
+            </form>
+            <div id="profitResults" class="results"></div>
+        </section>
+
+        <div class="button-group">
+            <button onclick="window.location.href='Selection.html'">Back to Selection</button>
+        </div>
+    </div>
+
+    <script>
+        // Dummy data for demonstration
+        const productsImported = {
+            'P001': 100,
+            'P002': 200,
+            'P003': 150
+        };
+
+        const salesRevenueData = {
+            day: 5000,
+            month: 150000,
+            year: 2000000
+        };
+
+        const profitData = {
+            'P001': { employee: 'E001', profit: 3000 },
+            'P002': { employee: 'E002', profit: 4000 },
+            'P003': { employee: 'E003', profit: 2000 }
+        };
+
+        function statisticImports() {
+            const productCode = document.getElementById('productCode').value;
+            const resultDiv = document.getElementById('importResults');
+            const count = productsImported[productCode] || 0;
+            resultDiv.innerText = `Number of products imported for code ${productCode}: ${count}`;
+        }
+
+        function statisticSalesRevenue() {
+            const timePeriod = document.getElementById('timePeriod').value;
+            const resultDiv = document.getElementById('salesResults');
+            const revenue = salesRevenueData[timePeriod] || 0;
+            resultDiv.innerText = `Sales revenue for ${timePeriod}: $${revenue}`;
+        }
+
+        function statisticProfit() {
+            const profitCode = document.getElementById('profitCode').value;
+            const resultDiv = document.getElementById('profitResults');
+            const profitInfo = profitData[profitCode];
+            if (profitInfo) {
+                resultDiv.innerText = `Profit for ${profitCode}: $${profitInfo.profit} (Employee: ${profitInfo.employee})`;
+            } else {
+                resultDiv.innerText = `No profit data found for code ${profitCode}.`;
+            }
+        }
+    </script>
+</body>
+</html>

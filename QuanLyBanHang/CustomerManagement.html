@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CustomerManagement.css">
+    <title>Customer Management</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Customer Management</h1>
+        <form id="customerForm" onsubmit="return false;">
+            <div class="form-group">
+                <label for="customerCode">Customer Code:</label>
+                <input type="text" id="customerCode" required>
+            </div>
+            <div class="form-group">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" required>
+            </div>
+            <div class="button-group">
+                <button type="button" onclick="addCustomer()">Add</button>
+                <button type="button" onclick="editCustomer()">Edit</button>
+                <button type="button" onclick="deleteCustomer()">Delete</button>
+            </div>
+        </form>
+
+        <h2>Customers List</h2>
+        <table id="customersTable">
+            <thead>
+                <tr>
+                    <th>Customer Code</th>
+                    <th>Customer Name</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Customer rows will be dynamically inserted here -->
+            </tbody>
+        </table>
+
+        <div class="button-group">
+            <button onclick="window.location.href='Selection.html'">Back to Selection</button>
+        </div>
+    </div>
+    <script>
+        let selectedCustomerRow = null; // To store the currently selected customer row
+
+        // Initial customer data
+        const initialCustomers = [
+            { code: 'C001', name: 'John Doe', phone: '123-456-7890', address: '123 Elm Street' },
+            { code: 'C002', name: 'Jane Smith', phone: '987-654-3210', address: '456 Oak Avenue' },
+            { code: 'C003', name: 'Mike Johnson', phone: '555-123-4567', address: '789 Pine Road' },
+            { code: 'C004', name: 'Sara Connor', phone: '555-765-4321', address: '321 Maple Drive' },
+            { code: 'C005', name: 'Tom Hanks', phone: '555-987-6543', address: '654 Birch Lane' }
+        ];
+
+        // Load initial customer data
+        window.onload = function() {
+            loadInitialCustomers();
+        };
+
+        function loadInitialCustomers() {
+            const table = document.getElementById('customersTable').getElementsByTagName('tbody')[0];
+            initialCustomers.forEach(customer => {
+                const newRow = table.insertRow();
+                newRow.insertCell(0).innerText = customer.code;
+                newRow.insertCell(1).innerText = customer.name;
+                newRow.insertCell(2).innerText = customer.phone;
+                newRow.insertCell(3).innerText = customer.address;
+
+                newRow.onclick = function() {
+                    selectCustomer(newRow);
+                };
+            });
+        }
+
+        function addCustomer() {
+            const customerCode = document.getElementById('customerCode').value;
+            const customerName = document.getElementById('customerName').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const address = document.getElementById('address').value;
+
+            if (customerCode && customerName && phoneNumber && address) {
+                const table = document.getElementById('customersTable').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+
+                newRow.insertCell(0).innerText = customerCode;
+                newRow.insertCell(1).innerText = customerName;
+                newRow.insertCell(2).innerText = phoneNumber;
+                newRow.insertCell(3).innerText = address;
+
+                newRow.onclick = function() {
+                    selectCustomer(newRow);
+                };
+
+                document.getElementById('customerForm').reset();
+            } else {
+                alert('Please fill in all fields!');
+            }
+        }
+
+        function selectCustomer(row) {
+            // Highlight selected row
+            if (selectedCustomerRow) {
+                selectedCustomerRow.classList.remove('selected');
+            }
+            selectedCustomerRow = row;
+            selectedCustomerRow.classList.add('selected');
+
+            // Populate form with selected customer data
+            document.getElementById('customerCode').value = row.cells[0].innerText;
+            document.getElementById('customerName').value = row.cells[1].innerText;
+            document.getElementById('phoneNumber').value = row.cells[2].innerText;
+            document.getElementById('address').value = row.cells[3].innerText;
+        }
+
+        function editCustomer() {
+            if (selectedCustomerRow) {
+                selectedCustomerRow.cells[0].innerText = document.getElementById('customerCode').value;
+                selectedCustomerRow.cells[1].innerText = document.getElementById('customerName').value;
+                selectedCustomerRow.cells[2].innerText = document.getElementById('phoneNumber').value;
+                selectedCustomerRow.cells[3].innerText = document.getElementById('address').value;
+                document.getElementById('customerForm').reset();
+            } else {
+                alert('Please select a customer to edit!');
+            }
+        }
+
+        function deleteCustomer() {
+            if (selectedCustomerRow) {
+                selectedCustomerRow.remove();
+                selectedCustomerRow = null;
+                document.getElementById('customerForm').reset();
+            } else {
+                alert('Please select a customer to delete!');
+            }
+        }
+    </script>
+</body>
+</html>

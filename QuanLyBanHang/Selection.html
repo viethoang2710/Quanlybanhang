@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Selection.css">
+    <title>Selection Menu</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Selection Menu</h1>
+        <div class="button-group" id="roleButtons">
+            <!-- Buttons will be added here based on user role -->
+        </div>
+    </div>
+
+    <script>
+        const role = sessionStorage.getItem('role');
+
+        const buttonGroup = document.getElementById('roleButtons');
+
+        if (role === 'admin') {
+            buttonGroup.innerHTML = `
+                <button onclick="window.location.href='ProductManagement.html'">Product Management</button>
+                <button onclick="window.location.href='EmployeeManagement.html'">Employee Management</button>
+                <button onclick="window.location.href='CustomerManagement.html'">Customer Management</button>
+                <button onclick="window.location.href='StatisticsManagement.html'">Statistics Management</button>
+            `;
+        } else if (role === 'sales') {
+            buttonGroup.innerHTML = `
+                <button onclick="window.location.href='ProductManagement.html'">Product Management</button>
+                <button onclick="window.location.href='CustomerManagement.html'">Customer Management</button>
+            `;
+        } else if (role === 'warehouse') {
+            buttonGroup.innerHTML = `
+                <button onclick="window.location.href='ProductManagement.html'">Inventory Management</button>
+            `;
+        } else if (role === 'employee') {
+            buttonGroup.innerHTML = `
+                <button onclick="window.location.href='CustomerManagement.html'">View Customer Management</button>
+            `;
+        } else {
+            buttonGroup.innerHTML = `<p>User role not recognized. Please log in again.</p>`;
+        }
+    </script>
+</body>
+</html>
